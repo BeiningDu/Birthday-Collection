@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>十月十一日 / October 11</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="game-container">
+
+    <section id="title-screen" class="screen active">
+      <div id="intro-container">
+        <div class="intro-prologue">
+            <p class="prologue-text">今天是十月十一日</p>
+        </div>
+        <div class="select-view">
+            <h2 class="select-title">你是：</h2>
+            
+            <div class="card-group">
+            <button class="char-card" data-role="A" disabled>
+                <span class="char-name">陈羿帆</span>
+            </button>
+            <button class="char-card" data-role="B" disabled>
+                <span class="char-name">窦一杰</span>
+            </button>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section id="story-screen" class="screen">
+      <div id="bg-layer-front" class="bg-layer"></div>
+      <div id="bg-layer-back" class="bg-layer"></div>
+
+      <header class="game-hud">
+        <button id="btn-audio-toggle" class="hud-btn" title="音乐开关" aria-label="音乐开关">♪</button>
+        <button id="btn-restart" class="hud-btn" title="返回首页" aria-label="返回首页">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 10.5 12 3l9 7.5" />
+            <path d="M5 9v11a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V9" />
+          </svg>
+        </button>
+      </header>
+
+      <div id="choices-layer" class="choices-layer hidden">
+        <div id="choices-container" class="choices-container">
+        </div>
+      </div>
+
+      <div id="textbox-container" class="textbox-container">
+        <div class="speaker-tag-wrap">
+          <span id="speaker-name" class="speaker-name"></span>
+        </div>
+        <div class="dialogue-box">
+          <p id="dialogue-text" class="dialogue-text"></p>
+          <span id="continue-cursor" class="continue-cursor hidden">▼</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="ending-screen" class="screen">
+      <div class="ending-card">
+        <div class="ending-header">
+          <span id="ending-badge" class="ending-badge">结局</span>
+          <h2 id="ending-title" class="ending-title">生日</h2>
+        </div>
+        <div id="ending-epilogue" class="ending-epilogue">
+        </div>
+        <div class="ending-actions">
+          <button id="btn-replay" class="btn-action pending" disabled>重新开始</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <audio id="bgm-player" loop preload="auto"></audio>
+  <audio id="sfx-player" preload="auto"></audio>
+
+  <script src="js/story.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

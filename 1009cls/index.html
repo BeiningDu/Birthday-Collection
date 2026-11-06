@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Birthday Pitch Game</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="importmap"> {"imports": {"three": "https://unpkg.com/three@0.160.0/build/three.module.js"}}
+  </script>
+</head>
+<body>
+  <div id="game-container"></div>
+
+  <div id="ui-layer">
+    <div id="song-progress" class="progress-bar">
+      <div id="progress-inner"></div>
+    </div>
+
+    <aside class="pitch-meter-container">
+      <div class="meter-labels">
+        <span>High</span>
+        <span>C4</span>
+        <span>Low</span>
+      </div>
+      <div class="meter-track">
+        <div id="pitch-indicator"></div>
+      </div>
+    </aside>
+
+    <div id="feedback-text" class="feedback-toast"></div>
+  </div>
+
+  <div id="start-screen" class="overlay-screen active">
+    <div class="modal-card">
+      <h1>🎵 Happy Birthday to <span class="highlight-name">cls</span> 🎵</h1>
+      <p class="guide-text">
+        Hit the right pitch to steer the ball through the planks;<br>
+        Sing your heart out to bring this Birthday Anthem home!
+      </p>
+      <div class="key-hint">Tuning Key: C4</div>
+      <button id="btn-start" class="primary-btn">Mic Up & Dive In</button>
+    </div>
+  </div>
+
+  <div id="celebration-screen" class="overlay-screen">
+    <div class="modal-card celebration-card">
+      <div class="cake-icon">🎂</div>
+      <h1 class="bounce-text">Happy Birthday! 🎉</h1>
+      <p id="final-stats">Flawless pitch! You just conquered the whole melody!</p>
+      <div class="wish-message">
+        May your new year find every note falling perfectly in step with joy.
+      </div>
+      <button id="btn-restart" class="secondary-btn">Encore!</button>
+    </div>
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

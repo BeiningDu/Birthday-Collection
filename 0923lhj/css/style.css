@@ -1,0 +1,347 @@
+/* ==========================================================================
+   Happy Birthday Snake - 10x10 Retro Pixel Edition Stylesheet
+   适配特性：
+   1. 纯像素无模糊硬边缘渲染
+   2. 移动端触控防误触与按压反馈
+   3. 响应式布局：电脑端自动隐藏虚拟方向键，移动端正常显示
+   ========================================================================== */
+
+/* --- 1. 全局重置与手势防误触 --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #0d0d14;
+    color: #e6e6f0;
+    font-family: "Courier New", Courier, monospace, system-ui;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 根容器：移动端默认垂直撑开流式布局 */
+#app {
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    max-height: 720px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+/* --- 顶部 HUD 状态面板 --- */
+#status-panel {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 14px;
+    background-color: #161622;
+    border: 2px solid #28283d;
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hud-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.progress-box, .target-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.label {
+    color: #7d7d99;
+}
+
+#progress-text {
+    color: #52c41a;
+}
+
+#target-display {
+    display: inline-block;
+    min-width: 22px;
+    text-align: center;
+    color: #ff4d4f;
+    font-size: 15px;
+    font-weight: 900;
+    text-shadow: 0 0 6px rgba(255, 77, 79, 0.4);
+}
+
+.collected-box {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    width: 100%;
+    padding-top: 6px;
+    border-top: 1px dashed #28283d;
+}
+
+.collected-box .label {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.collected-text {
+    flex: 1;
+    color: #fadb14;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.4;
+    min-height: 18px;
+    word-break: break-word;
+    text-shadow: 0 0 4px rgba(250, 219, 20, 0.3);
+}
+
+/* --- 3. 游戏视口与像素画布 --- */
+#game-viewport {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: auto 0;
+}
+
+#gameCanvas {
+    display: block;
+    width: 320px;
+    height: 320px;
+    background-color: #1a1a24;
+    border: 3px solid #33334d;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(0, 0, 0, 0.6);
+    /* 强制最近邻插值，保证硬像素边缘 */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* --- 4. 结算祝贺弹窗 --- */
+#congrats-modal {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 13, 20, 0.88);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+#congrats-modal.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    width: 86%;
+    padding: 24px 16px;
+    background-color: #1a1a29;
+    border: 2px solid #ffec3d;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 236, 61, 0.25);
+    animation: popIn 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.blessing-title {
+    font-size: 19px;
+    font-weight: 900;
+    color: #ffec3d;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.blessing-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+}
+
+.blessing-message {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #b0b0cc;
+    margin-bottom: 20px;
+}
+
+#replay-btn {
+    padding: 10px 24px;
+    background-color: #52c41a;
+    color: #0f2b05;
+    font-size: 14px;
+    font-weight: 800;
+    font-family: inherit;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 0 #2b660d;
+    cursor: pointer;
+    transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+#replay-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #2b660d;
+}
+
+/* --- 5. 移动端虚拟十字方向键 (D-Pad) --- */
+#dpad-controller {
+    width: 176px;
+    height: 176px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    margin-bottom: 8px;
+}
+
+.dpad-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.dpad-center {
+    width: 54px;
+    height: 54px;
+    background-color: #1f1f2e;
+}
+
+/* 按键基础物理形态 */
+.dpad-btn {
+    width: 54px;
+    height: 54px;
+    background-color: #2b2b3d;
+    border: none;
+    outline: none;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.08s ease;
+}
+
+/* 纯 CSS 绘制像素三角形指示标 */
+.dpad-btn::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.dpad-btn.up {
+    border-radius: 8px 8px 0 0;
+    box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15);
+}
+.dpad-btn.up::after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 10px solid #8e8ea6;
+}
+
+.dpad-btn.down {
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 0 #181824;
+}
+.dpad-btn.down::after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid #8e8ea6;
+}
+
+.dpad-btn.left {
+    border-radius: 8px 0 0 8px;
+    box-shadow: inset 2px 0 0 rgba(255, 255, 255, 0.15), 0 4px 0 #181824;
+}
+.dpad-btn.left::after {
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-right: 10px solid #8e8ea6;
+}
+
+.dpad-btn.right {
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 4px 0 #181824;
+}
+.dpad-btn.right::after {
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 10px solid #8e8ea6;
+}
+
+/* 按压高亮反馈与机械下沉效果 */
+.dpad-btn:active {
+    background-color: #3d3d56;
+}
+
+.dpad-btn:active::after {
+    filter: brightness(1.3);
+}
+
+.dpad-btn.up:active {
+    transform: translateY(2px);
+}
+.dpad-btn.down:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #181824;
+}
+.dpad-btn.left:active {
+    transform: translateX(-2px);
+}
+.dpad-btn.right:active {
+    transform: translateX(2px);
+}
+
+/* --- 6. 响应式适配：电脑端隐藏方向键并重整布局 --- */
+@media (hover: hover) and (pointer: fine), (min-width: 768px) {
+    /* 彻底移除移动端虚拟控制器 */
+    #dpad-controller {
+        display: none !important;
+    }
+
+    /* 优化桌面端垂直对齐，去除底部留白并紧凑居中 */
+    #app {
+        max-height: 480px;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    #game-viewport {
+        margin: 0;
+    }
+}

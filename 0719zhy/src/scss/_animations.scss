@@ -1,0 +1,113 @@
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes read {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lawn-read {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.lawn-stay {
+  animation: lawn-read 7s linear 0s;
+}
+
+@keyframes heart-beat {
+  0% {
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.25, 1.25);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1, 1);
+  }
+}
+
+@keyframes balloon-move {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(5%) rotate(3deg);
+  }
+  50% {
+    transform: translateY(0) rotate(0);
+  }
+  75% {
+    transform: translateY(-5%) rotate(-3deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@keyframes move-up {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fade-in-only {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.keep-visible {
+  animation: fade-in-only 2s ease-in-out 0s forwards;
+}
+
+// Dynamic Classes
+
+.hidden {
+  display: none;
+}
+.fade-in {
+  animation: fade 2s ease-in 0s;
+}
+
+.btn-appear {
+  animation: fade 2s linear 0s 1 reverse, heart-beat 2s linear 0s infinite alternate !important;
+}
+
+.text-appear {
+  animation: fade 2s linear 0s 1 reverse !important;
+}
+
+.read {
+  animation: read 5s linear 0s;
+}
+
+.move-up {
+  animation: move-up calc(var(--readTime) * 3.0) linear 3s forwards;
+}

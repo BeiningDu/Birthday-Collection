@@ -1,0 +1,19 @@
+{
+  "name": "liangyijia0804",
+  "version": "1.0.0",
+  "description": "Birthday Interactive App",
+  "main": "electron-main.js",
+  "scripts": {
+    "dist": "electron-builder --win nsis"
+  },
+  "build": {
+    "appId": "com.birthday.app",
+    "productName": "HappyBirthday",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
